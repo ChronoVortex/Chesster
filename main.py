@@ -1,5 +1,3 @@
-# DOCS: https://discordpy.readthedocs.io/en/latest/index.html
-
 # Discord libraries
 import discord
 from discord.ext import commands
