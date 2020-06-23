@@ -37,7 +37,6 @@ for cog in cogs:
 		bot.load_extension(cog)
 	except Exception:
 		print('Unable to load cog {}'.format(cog))
-#bot.add_cog(ChessCommands(bot))
 
 # Run bot
 token = ''
