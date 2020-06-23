@@ -42,14 +42,6 @@ class chess(commands.Cog):
 			svg = BytesIO(str(chess2svg(board=self.chessBoard, style='text{ fill: white; }')).encode())
 			renderPM.drawToFile(svg2rlg(svg), img, fmt='PNG', bg=0x36393f)
 			img.seek(0)
-			# Old image rendering code
-			'''
-			from cairosvg import svg2png
-			
-			img = BytesIO()
-			svg2png(bytestring=str(chess2svg(board=self.chessBoard, style='text{ fill: white; stroke: white; }')), write_to=img)
-			img.seek(0)
-			'''
 			
 			# Send board image to discord
 			await ctx.send(file=discord.File(fp=img, filename='chessboard.png'))
