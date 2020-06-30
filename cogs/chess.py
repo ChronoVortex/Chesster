@@ -12,11 +12,6 @@ def eqor(val, *args):
 			return True
 	return False
 
-''' BUGS:
-undoing after checking the king in the first move leaves only one move
-undoing after one move and a zugzwang leaves only one move
-undoing doesn't work for movesMax = 1
-'''
 class chess(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
@@ -109,7 +104,7 @@ class chess(commands.Cog):
 	async def undo(self, ctx):
 		if self.chessBoard and eqor(ctx.author, self.player1, self.player2):
 			# Make sure the caller was the last person to move
-			if ctx.author == self.player1 if self.chessBoard.turn else self.player2:
+			if ctx.author == (self.player1 if self.chessBoard.turn else self.player2):
 				if self.movesMade != 0:
 					await self.undo_aux(ctx)
 				else:
@@ -130,9 +125,8 @@ class chess(commands.Cog):
 		# Give current player the option to pass
 		if move == 'zugzwang':
 			print(color + ' passes')
-			self.chessBoard.turn = not self.chessBoard.turn
-			self.movesMade = 0
-			await ctx.send('Turn skipped.')
+			self.chessBoard.push(Chess.Move.from_uci('0000'))
+			await ctx.send('Move skipped.')
 		
 		# The actual moves
 		else:
@@ -140,7 +134,7 @@ class chess(commands.Cog):
 			print('{} attempting move {}...'.format(color, move))
 			try:
 				self.chessBoard.push_san(move)
-			except:
+			except ValueError:
 				print('Move failed')
 				await ctx.send('That move is illegal.')
 				return
@@ -149,16 +143,16 @@ class chess(commands.Cog):
 			# Show board
 			await self.view(ctx)
 			
-			# Keep the color the same for two turns if no check
-			self.movesMade += 1
-			if self.movesMade < self.movesMax and not self.chessBoard.is_check():
-				self.chessBoard.turn = turn
-			else:
-				# Turn is over, check if game is over
-				await self.chess_check_done(ctx, turn)
-				
-				# Reset moves on turn switch
-				self.movesMade = 0
+		# Keep the color the same for two turns if no check
+		self.movesMade += 1
+		if self.movesMade < self.movesMax and not self.chessBoard.is_check():
+			self.chessBoard.turn = turn
+		else:
+			# Turn is over, check if game is over
+			await self.chess_check_done(ctx, turn)
+			
+			# Reset moves on turn switch
+			self.movesMade = 0
 	
 	@commands.command()
 	async def move(self, ctx, move: str):
