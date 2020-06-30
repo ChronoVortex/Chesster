@@ -123,7 +123,7 @@ class chess(commands.Cog):
 		color = 'White' if turn else 'Black'
 		
 		# Give current player the option to pass
-		if move == 'zugzwang':
+		if move == 'skip':
 			print(color + ' passes')
 			self.chessBoard.push(Chess.Move.from_uci('0000'))
 			await ctx.send('Move skipped.')
@@ -176,6 +176,10 @@ class chess(commands.Cog):
 				
 				# Try the move
 				await self.move_aux(ctx, move, currentTurn)
+	
+	@commands.command()
+	async def zugzwang(self, ctx):
+		await self.move(ctx, 'skip')
 
 def setup(bot):
 	bot.add_cog(chess(bot))
