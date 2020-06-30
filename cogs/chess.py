@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from io import BytesIO
+from io import BytesIO, StringIO
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
 import chess as Chess
@@ -45,7 +45,7 @@ class chess(commands.Cog):
 		if self.chessBoard:
 			# Generate and format board image
 			img = BytesIO()
-			svg = BytesIO(str(chess2svg(board=self.chessBoard, style='text{fill:white}')).encode())
+			svg = StringIO(chess2svg(board=self.chessBoard, style='text{fill:white}'))
 			renderPM.drawToFile(svg2rlg(svg), img, fmt='PNG', bg=0x36393f)
 			img.seek(0)
 			
