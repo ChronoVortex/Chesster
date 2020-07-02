@@ -17,15 +17,35 @@ async def on_ready():
 # Dice roller
 @bot.command()
 async def roll(ctx, rollstr: str):
-	# Validate roll
+	# Validate roll string
 	if not re.compile(r'^\d+d\d+$').match(rollstr):
 		await ctx.send('Invalid roll, enter in the format #d#.')
+		return
+	
+	# Get dice values from string
+	dice = re.compile(r'\d+').findall(rollstr)
+	count = int(dice[0])
+	sides = int(dice[1])
+	
+	# Validate dice values
+	if count < 1:
+		await ctx.send('Invalid roll, number of dice must be greater than 0.')
+		return
+	if count > 64:
+		await ctx.send('Invalid roll, number of dice must be less than 65.')
+		return
+	if sides < 2:
+		await ctx.send('Invalid roll, number of sides must be greater than 1.')
+		return
+	if sides > 64:
+		await ctx.send('Invalid roll, number of sides must be less than 65.')
+		return
+	
+	# Calculate roll and send results
+	if count == 1:
+		await ctx.send('Result: {}'.format(randrange(1, sides + 1)))
 	else:
-		# Get dice results from roll
-		dice = re.compile(r'\d+').findall(rollstr)
-		roll_list = [randrange(1, int(dice[1]) + 1) for n in range(int(dice[0]))]
-		
-		# Send results
+		roll_list = [randrange(1, sides + 1) for n in range(count)]
 		await ctx.send('Results: {}\nTotal: {}'.format(', '.join(map(str, roll_list)), sum(roll_list)))
 
 # Load cogs
