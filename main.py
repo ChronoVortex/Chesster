@@ -31,14 +31,14 @@ async def roll(ctx, rollstr: str):
 	if count < 1:
 		await ctx.send('Invalid roll, number of dice must be greater than 0.')
 		return
-	if count > 64:
-		await ctx.send('Invalid roll, number of dice must be less than 65.')
+	if count > 100:
+		await ctx.send('Invalid roll, number of dice must be less than 101.')
 		return
 	if sides < 2:
 		await ctx.send('Invalid roll, number of sides must be greater than 1.')
 		return
-	if sides > 64:
-		await ctx.send('Invalid roll, number of sides must be less than 65.')
+	if sides > 100:
+		await ctx.send('Invalid roll, number of sides must be less than 101.')
 		return
 	
 	# Calculate roll and send results
