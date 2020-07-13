@@ -1,16 +1,14 @@
-# Get initialization settings
-from configparser import ConfigParser
-settings = ConfigParser()
-settings.read('settings.ini')
-
 # Discord libraries
 import discord
 from discord.ext import commands
 
+# Get initialization settings
+import settings
+
 # Other utils
 import os
 import re
-if bool(settings['flags']['use_quantum_rng']):
+if settings.use_quantum_rng:
 	print('Initializing with QRNG')
 	import qrng
 	qrng.set_backend()
