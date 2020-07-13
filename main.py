@@ -10,10 +10,7 @@ import os
 import re
 if settings.use_quantum_rng:
 	print('Initializing with QRNG')
-	import qrng
-	qrng.set_backend()
-	def randrange(min: int, max: int):
-		return qrng.get_random_int(min, max - 1)
+	from qrandom import randrange
 else:
 	print('Initializing with PRNG')
 	from random import randrange

@@ -4,7 +4,6 @@ from io import BytesIO, StringIO
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
 import chess as Chess
-from chess.svg import board as chess2svg
 
 def eqor(val, *args):
 	for arg in args:
@@ -45,7 +44,7 @@ class chess(commands.Cog):
 		if self.chessBoard:
 			# Generate and format board image
 			img = BytesIO()
-			svg = StringIO(chess2svg(board=self.chessBoard, style='text{fill:white}'))
+			svg = StringIO(Chess.svg.board(board=self.chessBoard, style='text{fill:white}'))
 			renderPM.drawToFile(svg2rlg(svg), img, fmt='PNG', bg=0x36393f)
 			img.seek(0)
 			
