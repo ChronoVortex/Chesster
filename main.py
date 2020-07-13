@@ -1,11 +1,21 @@
+# Get initialization settings
+from configparser import ConfigParser
+settings = ConfigParser()
+settings.read('settings.ini')
+
 # Discord libraries
 import discord
 from discord.ext import commands
 
 # Other utils
 import os
-from random import randrange
 import re
+if bool(settings['flags']['use_quantum_rng']):
+    print('Initializing with quantum RNG')
+    from qrandrange import qrandrange as randrange
+else:
+    print('Initializing with pseudo RNG')
+    from random import randrange
 
 # Initilize the bot
 bot = commands.Bot(command_prefix = '/')
