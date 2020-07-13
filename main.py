@@ -11,11 +11,14 @@ from discord.ext import commands
 import os
 import re
 if bool(settings['flags']['use_quantum_rng']):
-    print('Initializing with quantum RNG')
-    from qrandrange import qrandrange as randrange
+	print('Initializing with QRNG')
+	import qrng
+	qrng.set_backend()
+	def randrange(min: int, max: int):
+		return qrng.get_random_int(min, max - 1)
 else:
-    print('Initializing with pseudo RNG')
-    from random import randrange
+	print('Initializing with PRNG')
+	from random import randrange
 
 # Initilize the bot
 bot = commands.Bot(command_prefix = '/')
