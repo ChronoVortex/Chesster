@@ -22,11 +22,11 @@ class Qrandom():
         """Fetch data from the ANU Quantum Random Numbers JSON API."""
         print('Requesting data from qrng.anu.edu.au')
         if data_type not in DATA_TYPES:
-            raise Exception("data_type must be one of %s" % DATA_TYPES)
+            raise ValueError('data_type must be one of {}'.format(DATA_TYPES))
         if array_length > MAX_LEN:
-            raise Exception("array_length cannot be larger than %s" % MAX_LEN)
+            raise ValueError('array_length cannot be larger than {}'.format(MAX_LEN))
         if block_size > MAX_LEN:
-            raise Exception("block_size cannot be larger than %s" % MAX_LEN)
+            raise ValueError('block_size cannot be larger than {}'.format(MAX_LEN))
         url = 'https://qrng.anu.edu.au/API/jsonI.php?length={}&type={}&size={}'.format(
             array_length, data_type, block_size)
         data = json.loads(requests.get(url).content.decode())
@@ -90,3 +90,5 @@ if __name__ == '__main__':
         
         print(f'Average result: {avg}')
         print(f'Deviation from expected average: {(avg - EXPECTED_AVG)/EXPECTED_AVG:.2%}\n')
+        
+    input('Tests complete. Press [Enter] to exit.\n')
