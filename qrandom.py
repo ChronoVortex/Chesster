@@ -73,3 +73,20 @@ class Qrandom():
                 continue
             else:
                 return int(math.floor(num / modulos) + min)
+
+# Test random generation to see if there might be a bias
+if __name__ == '__main__':
+    qrandom_inst = Qrandom()
+    TEST_MAX = 65536
+    EXPECTED_AVG = (TEST_MAX - 1)/2
+    
+    print('Testing random 16-bit integer generation...\n')
+    for _ in range(3):
+        avg = 0
+        for i in range(5000):
+            new_element_weight = 1/(i+1)
+            avg_current_weight = 1 - new_element_weight
+            avg = avg_current_weight*avg + new_element_weight*qrandom_inst.randint(0, TEST_MAX)
+        
+        print(f'Average result: {avg}')
+        print(f'Deviation from expected average: {(avg - EXPECTED_AVG)/EXPECTED_AVG:.2%}\n')
