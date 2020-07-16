@@ -29,7 +29,7 @@ class Qrandom():
             raise ValueError('block_size cannot be larger than {}'.format(MAX_LEN))
         url = 'https://qrng.anu.edu.au/API/jsonI.php?length={}&type={}&size={}'.format(
             array_length, data_type, block_size)
-        data = json.loads(requests.get(url).content.decode())
+        data = json.loads(requests.get(url).text)
         assert data['success'] is True, data
         assert data['length'] == array_length, data
         return data['data']
