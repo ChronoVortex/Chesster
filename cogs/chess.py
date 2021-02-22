@@ -3,6 +3,7 @@ from discord.ext import commands
 from io import BytesIO, StringIO
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
+import chess.svg as chess_svg
 import chess as Chess
 
 def eqor(val, *args):
@@ -44,7 +45,7 @@ class chess(commands.Cog):
         if self.chessBoard:
             # Generate and format board image
             img = BytesIO()
-            svg = StringIO(Chess.svg.board(board=self.chessBoard, style='text{fill:white}'))
+            svg = StringIO(chess_svg.board(board=self.chessBoard, style='text{fill:white}'))
             renderPM.drawToFile(svg2rlg(svg), img, fmt='PNG', bg=0x36393f)
             img.seek(0)
             
