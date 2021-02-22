@@ -1,2 +1,2 @@
 # Chesster
-Discord bot for hosting Chess games.
+Discord bot for game stuff.
