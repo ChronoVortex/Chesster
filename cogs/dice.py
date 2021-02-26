@@ -6,8 +6,12 @@ from random import randrange, getrandbits
 
 class dice(commands.Cog):
     # Dice roller
-    @commands.command()
+    @commands.command(aliases=['dice', 'diceroll', 'rolldice'])
     async def roll(self, ctx, *rollstrs: str):
+        if not rollstrs:
+            await ctx.send('Rolling nothing...\nResults: nothing. Big suprise.')
+            return
+        
         rolls = []
         for rollstr in rollstrs:
             # Validate roll string
@@ -59,7 +63,7 @@ class dice(commands.Cog):
             await ctx.send('{}Total: {}'.format(to_send, sum(roll_list) + sum(mods)))
     
     # Coin flipper
-    @commands.command()
+    @commands.command(aliases=['coinflip'])
     async def flipcoin(self, ctx):
         await ctx.send(file=discord.File('res/heads.png' if getrandbits(1) else 'res/tails.png'))
 

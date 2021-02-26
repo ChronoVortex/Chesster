@@ -1,12 +1,10 @@
-# Discord libraries
 import discord
 from discord.ext import commands
-
-# Other utils
 import os
+from settings import *
 
 # Initilize the bot
-bot = commands.Bot(command_prefix = '/')
+bot = commands.Bot(command_prefix = PREFIX)
 
 @bot.event
 async def on_ready():
