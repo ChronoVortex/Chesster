@@ -5,6 +5,7 @@ from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPM
 import chess.svg as chess_svg
 import chess as Chess
+from settings import *
 
 def eqor(val, *args):
     for arg in args:
@@ -60,8 +61,8 @@ class chess(commands.Cog):
             self.movesMax = 2 if variant == 'double' else 1
             self.player1 = ctx.author
             self.player2 = member
-            await ctx.send('{} challenges {} to a game of chess! Use "/accept" to play or "/refuse" to run like a *coward*.'.format(
-                self.player1.display_name, self.player2.display_name))
+            await ctx.send('{1} challenges {2} to a game of chess! Use "{0}accept" to play or "{0}refuse" to run like a *coward*.'.format(
+                PREFIX, self.player1.display_name, self.player2.display_name))
     
     @commands.command()
     async def refuse(self, ctx):
@@ -75,7 +76,7 @@ class chess(commands.Cog):
         if not self.chessBoard and self.player2 and ctx.author == self.player2:
             # Tell players the game has started
             print('Initializing chess...')
-            await ctx.send('Beginning chess with {} as white and {} as black. Maximum moves per turn is {}. Use "/move" to move a piece on your turn. Use "/view" to view the board or "/forfeit" to give up at any time. Use "/undo" to take back a move you just made.'.format(self.player1.display_name, self.player2.display_name, self.movesMax))
+            await ctx.send('Beginning chess with {1} as white and {2} as black. Maximum moves per turn is {3}. Use "{0}move" to move a piece on your turn. Use "{0}view" to view the board or "{0}forfeit" to give up at any time. Use "{0}undo" to take back a move you just made.'.format(PREFIX, self.player1.display_name, self.player2.display_name, self.movesMax))
             
             # Initialize the chess board
             self.chessBoard = Chess.Board()
