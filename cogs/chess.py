@@ -41,7 +41,7 @@ class chess(commands.Cog):
     def active_player(self):
         return self.player1 if self.chessBoard.turn else self.player2
     
-    @commands.command()
+    @commands.command(help='View the board')
     async def view(self, ctx):
         if self.chessBoard:
             # Generate and format board image
@@ -53,7 +53,7 @@ class chess(commands.Cog):
             # Send board image to discord
             await ctx.send(file=discord.File(fp=img, filename='chessboard.png'))
     
-    @commands.command()
+    @commands.command(help='Request a chess match')
     async def chess(self, ctx, member: discord.Member, variant = 'normal'):
         if self.player1:
             await ctx.send('Chess is already in progress. Patience, young grasshopper.')
@@ -64,13 +64,13 @@ class chess(commands.Cog):
             await ctx.send('{1} challenges {2} to a game of chess! Use "{0}accept" to play or "{0}refuse" to run like a *coward*.'.format(
                 PREFIX, self.player1.display_name, self.player2.display_name))
     
-    @commands.command()
+    @commands.command(help='Refuse a chess match')
     async def refuse(self, ctx):
         if not self.chessBoard and self.player1 and eqor(ctx.author, self.player1, self.player2):
             await ctx.send('Chess cancled.')
             self.chess_clear()
     
-    @commands.command()
+    @commands.command(help='Accept a chess match')
     async def accept(self, ctx):
         # Board is uninitialized, player 2 is exists and command was called by player 2
         if not self.chessBoard and self.player2 and ctx.author == self.player2:
@@ -85,13 +85,13 @@ class chess(commands.Cog):
             await self.view(ctx)
             print('Chess is running')
     
-    @commands.command()
+    @commands.command(help='Forfeit the game')
     async def forfeit(self, ctx):
         if self.is_chess_player(ctx.author):
             await ctx.send('Game over! {} forfeits!'.format(ctx.author.display_name))
             self.chess_clear()
     
-    @commands.command()
+    @commands.command(help='Undo your last move')
     async def undo(self, ctx):
         if self.is_chess_player(ctx.author):
             # Make sure the caller was the last person to move
@@ -117,7 +117,7 @@ class chess(commands.Cog):
             else:
                 await ctx.send('That wasn\'t your move. Nice try.')
     
-    @commands.command()
+    @commands.command(help='Make a move')
     async def move(self, ctx, move: str):
         # Check if game is in progress and caller is one of the players
         if self.is_chess_player(ctx.author):
@@ -160,7 +160,7 @@ class chess(commands.Cog):
             else:
                 await ctx.send("It is currently {}'s turn.".format(self.active_player().display_name))
     
-    @commands.command()
+    @commands.command(help='Skip your move')
     async def zugzwang(self, ctx):
         await self.move(ctx, 'skip')
 
