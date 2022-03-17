@@ -8,7 +8,7 @@ class dice(commands.Cog):
     # Dice roller
     @commands.command(
         aliases=['dice', 'diceroll', 'rolldice'],
-        help='Roll dice using #d# or #d#±#')
+        help='Roll dice using #d# or #d#±#, will take multiple')
     async def roll(self, ctx, *rollstrs: str):
         if not rollstrs:
             await ctx.send('Rolling nothing...\nResults: nothing. Big suprise.')
