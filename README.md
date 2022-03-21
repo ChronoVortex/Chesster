@@ -1,2 +1,2 @@
 # Chesster
-Discord bot for game stuff.
+Discord bot for game stuff
