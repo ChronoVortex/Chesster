@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 from io import BytesIO, StringIO
-from svglib.svglib import svg2rlg
-from reportlab.graphics import renderPM
+from wand.image import Image
+from wand.color import Color
 import chess.svg as chess_svg
 import chess as Chess
 from settings import *
@@ -45,13 +45,14 @@ class chess(commands.Cog):
     async def view(self, ctx):
         if self.chessBoard:
             # Generate and format board image
-            img = BytesIO()
-            svg = StringIO(chess_svg.board(board=self.chessBoard, style='text{fill:white}'))
-            renderPM.drawToFile(svg2rlg(svg), img, fmt='PNG', bg=0x36393f)
-            img.seek(0)
+            with Color('#00000000') as bgcolor, Image(\
+                blob=chess_svg.board(board=self.chessBoard, style='text{fill:white}').encode(),\
+                format='svg', width=400, height=400, background=bgcolor) as img:
+                    render = BytesIO(img.make_blob(format='png'))
+            render.seek(0)
             
             # Send board image to discord
-            await ctx.send(file=discord.File(fp=img, filename='chessboard.png'))
+            await ctx.send(file=discord.File(fp=render, filename='chessboard.png'))
     
     @commands.command(help='Request a chess match')
     async def chess(self, ctx, member: discord.Member, variant = 'normal'):
