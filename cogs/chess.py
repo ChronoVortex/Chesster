@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from io import BytesIO, StringIO
+from io import BytesIO
 from wand.image import Image
 from wand.color import Color
 import chess.svg as chess_svg
@@ -165,5 +165,5 @@ class chess(commands.Cog):
     async def zugzwang(self, ctx):
         await self.move(ctx, 'skip')
 
-def setup(bot):
-    bot.add_cog(chess(bot))
+async def setup(bot):
+    await bot.add_cog(chess(bot))

@@ -71,5 +71,5 @@ class dice(commands.Cog):
     async def flipcoin(self, ctx):
         await ctx.send(file=discord.File('res/heads.png' if getrandbits(1) else 'res/tails.png'))
 
-def setup(bot):
-    bot.add_cog(dice(bot))
+async def setup(bot):
+    await bot.add_cog(dice(bot))

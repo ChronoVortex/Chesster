@@ -4,19 +4,18 @@ import os
 from settings import *
 
 # Initilize the bot
-bot = commands.Bot(command_prefix = PREFIX)
+bot = commands.Bot(command_prefix=PREFIX, intents=discord.Intents.all())
 
+# Load cogs
 @bot.event
 async def on_ready():
     print('Logged in as {0.user}'.format(bot))
-
-# Load cogs
-cogs = ['cogs.chess', 'cogs.dice']
-for cog in cogs:
-    try:
-        bot.load_extension(cog)
-    except Exception as e:
-        print('Unable to load {}: {}'.format(cog, e))
+    cogs = ['cogs.chess', 'cogs.dice']
+    for cog in cogs:
+        try:
+            await bot.load_extension(cog)
+        except Exception as e:
+            print('Unable to load {}: {}'.format(cog, e))
 
 # Run bot
 token = ''
